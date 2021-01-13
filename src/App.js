@@ -5,6 +5,12 @@ function App() {
   const [item, setItem] = useState('')
   const [list, setList] = useState([]) 
   
+  const addToDo = item => {
+    const updatedList = [...list, item]
+    setList(updatedList)
+    console.log("updatedList", updatedList)
+  }
+
   const handleChange = event => {
     console.log('Change')
     setItem(event.target.value)
@@ -14,10 +20,15 @@ function App() {
   const handleSumbit = event => {
     event.preventDefault()
     console.log('Submit')
-    list.push(item)
-    setList(list)
-    console.log(list)
+    addToDo(item)
+    // list.push(item)
+    // setList(list)
+    console.log("list", list)
   }
+
+  const mappedList = list.map((todo) => 
+    <li>{todo}</li>
+  )
  
     return (
       <div className="App">
@@ -27,6 +38,7 @@ function App() {
           <button>Add</button>
         </form>
         <div id="to-do-list"></div>
+        {mappedList}
       </div>
     );
   }
