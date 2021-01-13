@@ -5,7 +5,8 @@ function App() {
   const [item, setItem] = useState('')
   const [list, setList] = useState([])
   const [completed, setCompleted] = useState(false)
-  const [deleted, setDeleted] = useState(false) 
+  const [deleted, setDeleted] = useState(false)
+  const [styling, setStyling] = useState('liStyle') 
   
   const addToDo = item => {
     const updatedList = [...list, item]
@@ -30,26 +31,47 @@ function App() {
   const handleCompleted = event => {
     setCompleted(!completed)
     console.log('Completed', completed)
+    setStyling('strike')
+    console.log('styling', styling)
   }
 
-  const handleDeleted= event => {
+  const handleDeleted= (index) => {
     console.log('Deleted')
+    const processedToDos = [...list]
+    processedToDos.splice(index, 1)
+    setList(processedToDos)
+    
   }
 
+const liStyle = {
+  fontWeight: 'bold'
+}
+  
+const strike = {
+  textDecoration: 'line-through'
+}
 
+ 
 
-  const mappedList = list.map((todo) => 
-    <li key={todo}>
-      {todo} 
-      <button onClick={handleCompleted}>Mark Completed</button> 
-      <button onClick={handleDeleted}>Delete</button>
-    </li>
-  )
 
   // const mappedList = list.map((todo) => 
-  //   <li key={todo}>{todo}</li>
+  //   <li style={liStyle} key={todo}>
+  //     {todo} 
+  //     <button onClick={handleCompleted}>Mark Completed</button> 
+  //     <button onClick={handleDeleted}>Delete</button>
+  //   </li>
   // )
- 
+
+  const mappedList = list.map((todo, index) => 
+  <li style={liStyle} key={todo}>
+    {todo} 
+    <button onClick={handleCompleted}>Mark Completed</button> 
+    <button onClick={() => handleDeleted(index)}>Delete</button>
+  </li>
+)
+
+
+
     return (
       <div className="App">
         <h1>To do List</h1>
